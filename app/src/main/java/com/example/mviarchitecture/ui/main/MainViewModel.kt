@@ -6,6 +6,7 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.example.mviarchitecture.model.BlogPost
 import com.example.mviarchitecture.model.User
+import com.example.mviarchitecture.repository.Repository
 import com.example.mviarchitecture.ui.main.state.MainStateEvent
 import com.example.mviarchitecture.ui.main.state.MainStateEvent.*
 import com.example.mviarchitecture.ui.main.state.MainViewState
@@ -23,11 +24,11 @@ class MainViewModel: ViewModel() {
         .switchMap(_stateEvent) { stateEvent ->
             when (stateEvent) {
                 is GetBlogPostEvent -> {
-                    AbsentLiveData.create()
+                    Repository.getBlogPosts()
                 }
 
                 is GetUserEvent -> {
-                    AbsentLiveData.create()
+                    Repository.getUser(stateEvent.userID)
                 }
 
                 is None -> {
