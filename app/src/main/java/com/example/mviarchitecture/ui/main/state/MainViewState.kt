@@ -4,8 +4,8 @@ import com.example.mviarchitecture.model.BlogPost
 import com.example.mviarchitecture.model.User
 
 data class MainViewState(
-    var blogPost: List<BlogPost> ? = null,
-    var user: User ? = null
+    var blogPost: List<BlogPost>? = null,
+    var user: User? = null
 ){
 
 }

@@ -11,6 +11,7 @@ import com.example.mviarchitecture.ui.main.state.MainStateEvent
 import com.example.mviarchitecture.ui.main.state.MainStateEvent.*
 import com.example.mviarchitecture.ui.main.state.MainViewState
 import com.example.mviarchitecture.util.AbsentLiveData
+import com.example.mviarchitecture.util.DataState
 
 class MainViewModel: ViewModel() {
 
@@ -20,22 +21,31 @@ class MainViewModel: ViewModel() {
     val viewState: LiveData<MainViewState>
         get() = _viewState
 
-    val dataState: LiveData<MainViewState> = Transformations
+    val dataState: LiveData<DataState<MainViewState>> = Transformations
         .switchMap(_stateEvent) { stateEvent ->
-            when (stateEvent) {
-                is GetBlogPostEvent -> {
-                    Repository.getBlogPosts()
-                }
-
-                is GetUserEvent -> {
-                    Repository.getUser(stateEvent.userID)
-                }
-
-                is None -> {
-                    AbsentLiveData.create()
-                }
+            stateEvent?.let {
+                handleStateEvent(stateEvent)
             }
         }
+
+
+    fun handleStateEvent(stateEvent: MainStateEvent): LiveData<DataState<MainViewState>>{
+        println("DEBUG: New StateEvent detected: $stateEvent")
+        when(stateEvent){
+
+            is GetBlogPostEvent -> {
+                return Repository.getBlogPosts()
+            }
+
+            is GetUserEvent -> {
+                return Repository.getUser(stateEvent.userId)
+            }
+
+            is None ->{
+                return AbsentLiveData.create()
+            }
+        }
+    }
 
     fun setBlogListData(blogPost: List<BlogPost>){
         val update = getCurrentViewStateOrNew()
