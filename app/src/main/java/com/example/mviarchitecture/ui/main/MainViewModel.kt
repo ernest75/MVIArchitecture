@@ -28,7 +28,6 @@ class MainViewModel: ViewModel() {
             }
         }
 
-
     fun handleStateEvent(stateEvent: MainStateEvent): LiveData<DataState<MainViewState>>{
         println("DEBUG: New StateEvent detected: $stateEvent")
         when(stateEvent){
@@ -59,15 +58,14 @@ class MainViewModel: ViewModel() {
         _viewState.value = update
     }
 
-    private fun getCurrentViewStateOrNew() :MainViewState{
+   fun getCurrentViewStateOrNew() :MainViewState{
         val value = viewState.value?.let{
             it
         }?: MainViewState()
-
         return value
     }
 
-    fun setStateEvent(event:MainStateEvent){
+    fun setStateEvent(event: MainStateEvent){
         _stateEvent.value = event
     }
 

@@ -1,11 +1,9 @@
 package com.example.mviarchitecture.util
 
-import java.text.MessageFormat
-
 data class DataState<T>(
-    var message: String? = null,
+    var message: Event<String>? = null,
     var loading: Boolean = false,
-    var data: T? = null
+    var data: Event<T>? = null
 ){
     companion object{
 
@@ -14,7 +12,7 @@ data class DataState<T>(
         ) : DataState<T>{
             //todo chequejar sense assignar
             return DataState(
-                message = message,
+                message = Event(message),
                 loading = false,
                 data = null
             )
@@ -23,7 +21,11 @@ data class DataState<T>(
         fun <T> loading(
             isLoading: Boolean
         ) : DataState<T>{
-            return DataState(message = null, loading = isLoading, data = null)
+            return DataState(
+                message = null,
+                loading = isLoading,
+                data = null
+            )
         }
 
         fun <T> data(
@@ -31,9 +33,9 @@ data class DataState<T>(
             data :T? = null
         ): DataState<T>{
             return DataState(
-                message = message,
+                message = Event.handleNullableContent(message),
                 loading = false,
-                data = data
+                data = Event.handleNullableContent(data)
             )
         }
     }
@@ -41,6 +43,5 @@ data class DataState<T>(
     override fun toString(): String {
         return "DataState(message=$message, loading=$loading, data=$data)"
     }
-
 
 }

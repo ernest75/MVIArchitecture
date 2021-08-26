@@ -28,7 +28,7 @@ object Repository {
         }.asLivedata()
     }
 
-    fun getUser(userID :String) :LiveData<DataState<MainViewState>>{
+    fun getUser(userId :String) :LiveData<DataState<MainViewState>>{
         return object : NetworkBoundResource<User, MainViewState>(){
             override fun handleApiSuccessResponse(response: ApiSuccessResponse<User>) {
                 result.value = DataState.data(
@@ -39,7 +39,7 @@ object Repository {
             }
 
             override fun createCall(): LiveData<GenericApiResponse<User>> {
-                return RetrofitBuilder.apiService.getUser(userID)
+                return RetrofitBuilder.apiService.getUser(userId)
             }
 
         }.asLivedata()
