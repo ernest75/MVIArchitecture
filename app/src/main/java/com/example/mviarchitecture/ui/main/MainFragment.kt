@@ -7,8 +7,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.mviarchitecture.R
 import com.example.mviarchitecture.model.BlogPost
+import com.example.mviarchitecture.model.User
 import com.example.mviarchitecture.ui.DataStateListener
 import com.example.mviarchitecture.ui.main.state.MainStateEvent.GetBlogPostEvent
 import com.example.mviarchitecture.ui.main.state.MainStateEvent.GetUserEvent
@@ -87,6 +89,7 @@ class MainFragment : Fragment(), BlogPostAdapter.Interaction {
             viewState.user?.let{
                 // set User data to widgets
                 println("DEBUG: Setting User data: ${viewState.user}")
+                settingUserProperties(it)
             }
         })
     }
@@ -103,6 +106,15 @@ class MainFragment : Fragment(), BlogPostAdapter.Interaction {
             R.id.action_get_blogs -> triggerBlogPostsEvent()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun settingUserProperties(user: User){
+        username.text = user.username
+        email.text = user.email
+        Glide.with(this)
+            .load(user.image)
+            .into(image)
+
     }
 
     private fun triggerBlogPostsEvent() {
