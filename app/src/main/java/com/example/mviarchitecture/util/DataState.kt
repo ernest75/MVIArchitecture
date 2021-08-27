@@ -13,8 +13,6 @@ data class DataState<T>(
             //todo chequejar sense assignar
             return DataState(
                 message = Event(message),
-                loading = false,
-                data = null
             )
         }
 
@@ -22,9 +20,7 @@ data class DataState<T>(
             isLoading: Boolean
         ) : DataState<T>{
             return DataState(
-                message = null,
                 loading = isLoading,
-                data = null
             )
         }
 
@@ -34,7 +30,6 @@ data class DataState<T>(
         ): DataState<T>{
             return DataState(
                 message = Event.handleNullableContent(message),
-                loading = false,
                 data = Event.handleNullableContent(data)
             )
         }
